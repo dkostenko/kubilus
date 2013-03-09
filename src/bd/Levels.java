@@ -9,6 +9,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import model.Block;
 import model.Level;
+import game.Type;
 
 /**
  *
@@ -26,29 +27,19 @@ public class Levels {
     
     private static Level getLevel1(){
         ArrayList<Block> blocks = new ArrayList<>();
-        int[][] map = new int[][] {{ 1, 1, 1, 1, 1, 1 }, 
-                                   { 1, 0, 2, 0, 0, 1 },
-                                   { 1, 0, 0, 0, 3, 1 },
-                                   { 1, 0, 0, 0, 0, 1 },
-                                   { 1, 0, 0, 0, 0, 1 },
-                                   { 1, 1, 1, 1, 1, 1 }};
-        blocks.add(new Block(new Point(2, 1), 2, Color.BLUE));
-        blocks.add(new Block(new Point(4, 2), 3, Color.GREEN));
+        Type[][] map = new Type[][]{{Type.WALL, Type.WALL, Type.WALL, Type.WALL, Type.WALL, Type.WALL }, 
+                                   { Type.WALL, Type.CLUBS, Type.NONE, Type.NONE, Type.NONE, Type.WALL },
+                                   { Type.WALL, Type.NONE, Type.NONE, Type.NONE, Type.NONE, Type.WALL },
+                                   { Type.WALL, Type.NONE, Type.NONE, Type.NONE, Type.NONE, Type.WALL },
+                                   { Type.WALL, Type.NONE, Type.NONE, Type.CLUBS, Type.NONE, Type.WALL },
+                                   { Type.WALL, Type.WALL, Type.WALL, Type.WALL, Type.WALL, Type.WALL }};
+        blocks.add(new Block(new Point(2, 1), 1, Type.CLUBS));
+        blocks.add(new Block(new Point(4, 2), 2, Type.CLUBS));
         
         return new Level(map, blocks);
     }
 
     private static Level getLevel2(){
-        ArrayList<Block> blocks = new ArrayList<>();
-        int[][] map = new int[][] {{ 1, 1, 1, 1, 1, 1 }, 
-                                   { 1, 0, 2, 0, 0, 1 },
-                                   { 1, 0, 0, 0, 3, 1 },
-                                   { 1, 0, 0, 0, 0, 1 },
-                                   { 1, 0, 0, 0, 0, 1 },
-                                   { 1, 1, 1, 1, 1, 1 }};
-        blocks.add(new Block(new Point(2, 1), 2, Color.BLUE));
-        blocks.add(new Block(new Point(4, 2), 3, Color.GREEN));
-        
-        return new Level(map, blocks);
+        return null;
     }
 }

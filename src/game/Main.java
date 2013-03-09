@@ -8,14 +8,19 @@ import controller.LevelsController;
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 import game.Direction;
+import game.State;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.Timer;
 
 /**
  *
  * @author macbook
  */
-public class Main extends javax.swing.JFrame {
+public class Main extends javax.swing.JFrame implements Runnable {
 
-    LevelsController levelsController;
+    private LevelsController levelsController;
+    public static State state;
     
     /**
      * Creates new form Main
@@ -26,6 +31,11 @@ public class Main extends javax.swing.JFrame {
         
         this.setLayout(new BorderLayout());
         this.add(this.levelsController.getLevelView(), BorderLayout.WEST);
+    }
+    
+    public void start() {
+        state = State.downtime;
+        new Thread(this).start();
     }
     
     /**
@@ -42,12 +52,11 @@ public class Main extends javax.swing.JFrame {
         goToRight = new javax.swing.JButton();
         goToBottom = new javax.swing.JButton();
         changeBlock = new javax.swing.JButton();
+        timeLeft = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(800, 600));
         setMinimumSize(new java.awt.Dimension(800, 600));
         setName("mainFrame"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(800, 600));
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 formMousePressed(evt);
@@ -95,13 +104,15 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        timeLeft.setText("jLabel1");
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(601, Short.MAX_VALUE)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .addContainerGap(630, Short.MAX_VALUE)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(changeBlock, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 148, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(layout.createSequentialGroup()
                         .add(goToLeft, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 46, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -111,13 +122,16 @@ public class Main extends javax.swing.JFrame {
                             .add(layout.createSequentialGroup()
                                 .add(goToBottom, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 46, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(goToRight, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 45, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))
-                .add(50, 50, 50))
+                                .add(goToRight, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 45, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                    .add(timeLeft, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(21, 21, 21))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(47, 47, 47)
+                .add(38, 38, 38)
+                .add(timeLeft)
+                .add(68, 68, 68)
                 .add(goToTop, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
@@ -126,7 +140,7 @@ public class Main extends javax.swing.JFrame {
                     .add(goToBottom, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(18, 18, 18)
                 .add(changeBlock, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(409, Short.MAX_VALUE))
+                .addContainerGap(334, Short.MAX_VALUE))
         );
 
         pack();
@@ -201,11 +215,9 @@ public class Main extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Main().setVisible(true);
-            }
-        });
+        Main game = new Main();
+        game.setVisible(true);
+        game.start();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton changeBlock;
@@ -213,5 +225,52 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton goToLeft;
     private javax.swing.JButton goToRight;
     private javax.swing.JButton goToTop;
+    private javax.swing.JLabel timeLeft;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void run() {
+        long lastLoopTime = System.nanoTime();
+        final int TARGET_FPS = 30;
+        final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
+
+        while (state != State.finish) {
+            long now = System.nanoTime();
+            long updateLength = now - lastLoopTime;
+            lastLoopTime = now;
+            double delta = updateLength / ((double) OPTIMAL_TIME);
+
+//            lastFpsTime += updateLength;
+//            fps++;
+//            
+//
+//            if (lastFpsTime >= 1000000000) {
+//                lastFpsTime = 0;
+//                fps = 0;
+//                timeFromStart++;
+//                
+//                if(lose)
+//                    loseTime--;
+//                else manager.elapsed = (int) (timeFromStart - levelTime);
+//
+//                if(loseTime == 0) {
+//                    timeFromStart = levelTime = 0;
+//                    lose = false;
+//                    loseTime = 5;
+//                    manager.newGame();
+//                }
+//            }
+//
+//            update(delta);
+            //repaint();
+            this.timeLeft.setText(String.valueOf(lastLoopTime));
+            this.levelsController.getLevelView().repaint();
+
+            try {
+                Thread.sleep((lastLoopTime - System.nanoTime() + OPTIMAL_TIME) / 1000000);
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

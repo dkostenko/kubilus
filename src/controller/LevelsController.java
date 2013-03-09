@@ -31,27 +31,23 @@ public class LevelsController {
     
     public void selectBlock(Point point){
         currentLevel.tryToSelectBlock(point);
-        levelView.repaint();
+//        levelView.repaint();
     }
     
     public void selectBlock(){
         currentLevel.selectNextBlock();
-        levelView.repaint();
+//        levelView.repaint();
     }
     
-    public void moveBlock(Point point){
-        System.out.println("LevelsController moveBlock(Point point)");
-        
-        Point down = this.currentLevel.getLastPointDown();
-        if(down != null){
-            Direction direction = getDirection(down, point);
-            System.out.println("направление: " + direction);
+    public void moveBlock(Point upPoint){
+        Point downPoint = this.currentLevel.getLastPointDown();
+        if(downPoint != null){
+            this.currentLevel.startMoving(getDirection(downPoint, upPoint));
         }
     }
     
     public void moveBlock(Direction direction){
-        System.out.println("LevelsController moveBlock(Direction direction)");
-        System.out.println("направление: " + direction);
+        this.currentLevel.startMoving(direction);
     }
     
     private Direction getDirection(Point down, Point up){        

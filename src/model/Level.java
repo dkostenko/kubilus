@@ -4,10 +4,12 @@
  */
 package model;
 
+import game.Direction;
 import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
 import game.Settings;
+import game.Type;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
@@ -16,19 +18,63 @@ import java.awt.Rectangle;
  * @author macbook
  */
 public class Level {
-    ArrayList<Block> blocks;
-    int[][] map;
+    private ArrayList<Block> blocks;
+    private Type[][] map;
     private Point offset;
     private Point lastPointDown;
     private Block selectedBlock;
     
-    public Level(int[][] map, ArrayList<Block> blocks){
+    public Level(Type[][] map, ArrayList<Block> blocks){
         this.map = map;
         this.blocks = blocks;
         this.offset = new Point(0, 0);
         this.offset.x = (Settings.getGAME_WIDTH() - 200) / 2 - map[0].length * Settings.getBLOCK_SIZE() / 2;
         this.offset.y = Settings.getGAME_HEIGHT() / 2 - map.length * Settings.getBLOCK_SIZE() / 2;
         this.selectedBlock = this.blocks.get(0);
+    }
+    
+    public void startMoving(Direction direction){
+        if(direction == Direction.NONE){
+            return;
+        }
+        
+        int steps = getPossibleStepsAmount(direction);
+        System.out.println("Количество возможных шагов: " + steps);
+        
+        this.selectedBlock.move(direction, steps);
+    }
+    
+    private int getPossibleStepsAmount(Direction direction){
+        int steps = 0;
+        
+        switch(direction){
+            case TOP:
+                while(map[selectedBlock.getPoint().x][selectedBlock.getPoint().y - steps] == Type.NONE){
+                    System.out.println(map[selectedBlock.getPoint().x][selectedBlock.getPoint().y - steps]);
+                    steps++;
+                }
+                break;
+            case RIGHT:
+                while(map[selectedBlock.getPoint().x + steps][selectedBlock.getPoint().y] == Type.NONE){
+                    System.out.println(map[selectedBlock.getPoint().x + steps][selectedBlock.getPoint().y]);
+                    steps++;
+                }
+                break;
+            case BOTTOM:
+                while(map[selectedBlock.getPoint().x][selectedBlock.getPoint().y + steps] == Type.NONE){
+                    System.out.println(map[selectedBlock.getPoint().x][selectedBlock.getPoint().y + steps]);
+                    steps++;
+                }
+                break;
+            case LEFT:
+                while(map[selectedBlock.getPoint().x - steps][selectedBlock.getPoint().y] == Type.NONE){
+                    System.out.println(map[selectedBlock.getPoint().x - steps][selectedBlock.getPoint().y]);
+                    steps++;
+                }
+                break;
+        }
+        
+        return steps - 1;
     }
     
     public boolean tryToSelectBlock(Point point){
@@ -52,13 +98,10 @@ public class Level {
     }
     
     public void selectNextBlock(){
-        
-        // т.к. id блока всегда на 1 больше, чем необходимо (т.к. у препятствий id=1), поэтому вычитаем 1
-        
-        if(this.selectedBlock.getId() - 1 >= this.blocks.size()){
+        if(this.selectedBlock.getId() >= this.blocks.size()){
             this.selectedBlock = this.blocks.get(0);
         } else {
-            this.selectedBlock = this.blocks.get(this.selectedBlock.getId() - 1);
+            this.selectedBlock = this.blocks.get(this.selectedBlock.getId());
         }
     }
     
@@ -70,7 +113,7 @@ public class Level {
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
                 switch(map[i][j]){
-                    case 1:
+                    case WALL:
                         g.setColor(Color.GRAY);
                         g.fillRect(j * Settings.getBLOCK_SIZE() + offset.x, 
                                    i * Settings.getBLOCK_SIZE() + offset.y,
@@ -85,16 +128,8 @@ public class Level {
                         
                         drawOval = false;
                         break;
-                    case 2:
+                    case CLUBS:
                         g.setColor(Color.BLUE);
-                        drawOval = true;
-                        break;
-                    case 3:
-                        g.setColor(Color.GREEN);
-                        drawOval = true;
-                        break;
-                    case 4:
-                        g.setColor(Color.MAGENTA);
                         drawOval = true;
                         break;
                 }
