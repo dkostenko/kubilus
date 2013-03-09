@@ -114,8 +114,6 @@ public class Block {
                 this.futurePoint = new Point(this.point.x - steps, this.point.y);
                 break;
         }
-//        this.futurePoint = 
-        // set futurePoint
         return true;
     }
 

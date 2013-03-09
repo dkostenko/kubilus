@@ -36,7 +36,7 @@ public class Levels {
         blocks.add(new Block(new Point(2, 1), 1, Type.CLUBS));
         blocks.add(new Block(new Point(4, 2), 2, Type.CLUBS));
         
-        return new Level(map, blocks);
+        return new Level(map, blocks, 2);
     }
 
     private static Level getLevel2(){

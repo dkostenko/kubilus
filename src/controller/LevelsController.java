@@ -14,6 +14,7 @@ import view.LevelView;
 import game.Direction;
 import game.Settings;
 import bd.Levels;
+import game.State;
 
 /**
  *
@@ -44,6 +45,18 @@ public class LevelsController {
         if(downPoint != null){
             this.currentLevel.startMoving(getDirection(downPoint, upPoint));
         }
+    }
+    
+    public int update(){
+        int leftTime = this.currentLevel.updateTimeLeft();
+        if(leftTime < 0){
+            game.Main.state = State.finish;
+        }
+        return leftTime;
+    }
+    
+    public void draw(){
+        this.levelView.repaint();
     }
     
     public void moveBlock(Direction direction){

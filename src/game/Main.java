@@ -11,6 +11,8 @@ import game.Direction;
 import game.State;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.TimeUnit;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 /**
@@ -229,48 +231,26 @@ public class Main extends javax.swing.JFrame implements Runnable {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void run() {
+    public void run() {        
         long lastLoopTime = System.nanoTime();
-        final int TARGET_FPS = 30;
-        final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
+        long lastFpsTime = 0;
+        long now;
+        long updateLength;
 
         while (state != State.finish) {
-            long now = System.nanoTime();
-            long updateLength = now - lastLoopTime;
+            now = System.nanoTime();
+            updateLength = now - lastLoopTime;
             lastLoopTime = now;
-            double delta = updateLength / ((double) OPTIMAL_TIME);
+            lastFpsTime += updateLength;
 
-//            lastFpsTime += updateLength;
-//            fps++;
-//            
-//
-//            if (lastFpsTime >= 1000000000) {
-//                lastFpsTime = 0;
-//                fps = 0;
-//                timeFromStart++;
-//                
-//                if(lose)
-//                    loseTime--;
-//                else manager.elapsed = (int) (timeFromStart - levelTime);
-//
-//                if(loseTime == 0) {
-//                    timeFromStart = levelTime = 0;
-//                    lose = false;
-//                    loseTime = 5;
-//                    manager.newGame();
-//                }
-//            }
-//
-//            update(delta);
-            //repaint();
-            this.timeLeft.setText(String.valueOf(lastLoopTime));
-            this.levelsController.getLevelView().repaint();
+            this.levelsController.draw();
 
-            try {
-                Thread.sleep((lastLoopTime - System.nanoTime() + OPTIMAL_TIME) / 1000000);
-            } catch(Exception e) {
-                e.printStackTrace();
+            if (lastFpsTime >= 1000000000) {
+                this.timeLeft.setText("Осталось: " + levelsController.update());
+                lastFpsTime = 0;
             }
         }
+        
+        
     }
 }

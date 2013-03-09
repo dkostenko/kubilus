@@ -23,14 +23,17 @@ public class Level {
     private Point offset;
     private Point lastPointDown;
     private Block selectedBlock;
+    private int timeLeft;
+    private int id;
     
-    public Level(Type[][] map, ArrayList<Block> blocks){
+    public Level(Type[][] map, ArrayList<Block> blocks, int timeLeft){
         this.map = map;
         this.blocks = blocks;
         this.offset = new Point(0, 0);
         this.offset.x = (Settings.getGAME_WIDTH() - 200) / 2 - map[0].length * Settings.getBLOCK_SIZE() / 2;
         this.offset.y = Settings.getGAME_HEIGHT() / 2 - map.length * Settings.getBLOCK_SIZE() / 2;
         this.selectedBlock = this.blocks.get(0);
+        this.timeLeft = timeLeft;
     }
     
     public void startMoving(Direction direction){
@@ -50,25 +53,21 @@ public class Level {
         switch(direction){
             case TOP:
                 while(map[selectedBlock.getPoint().x][selectedBlock.getPoint().y - steps] == Type.NONE){
-                    System.out.println(map[selectedBlock.getPoint().x][selectedBlock.getPoint().y - steps]);
                     steps++;
                 }
                 break;
             case RIGHT:
                 while(map[selectedBlock.getPoint().x + steps][selectedBlock.getPoint().y] == Type.NONE){
-                    System.out.println(map[selectedBlock.getPoint().x + steps][selectedBlock.getPoint().y]);
                     steps++;
                 }
                 break;
             case BOTTOM:
                 while(map[selectedBlock.getPoint().x][selectedBlock.getPoint().y + steps] == Type.NONE){
-                    System.out.println(map[selectedBlock.getPoint().x][selectedBlock.getPoint().y + steps]);
                     steps++;
                 }
                 break;
             case LEFT:
                 while(map[selectedBlock.getPoint().x - steps][selectedBlock.getPoint().y] == Type.NONE){
-                    System.out.println(map[selectedBlock.getPoint().x - steps][selectedBlock.getPoint().y]);
                     steps++;
                 }
                 break;
@@ -159,5 +158,19 @@ public class Level {
      */
     public Point getLastPointDown() {
         return lastPointDown;
+    }
+    
+     /**
+     * @return new timeLeft
+     */
+    public int updateTimeLeft() {
+        return --timeLeft;
+    }
+
+    /**
+     * @return the id
+     */
+    public int getId() {
+        return id;
     }
 }

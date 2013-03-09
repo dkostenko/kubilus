@@ -11,7 +11,7 @@ package game;
 public class Settings {
     private static final int GAME_WIDTH = 780;
     private static final int GAME_HEIGHT = 600;
-    private static final int BLOCK_SPEED = 5;
+    private static final int BLOCK_SPEED = 1;
     private static final int BLOCK_SIZE = 40;
 
     /**
