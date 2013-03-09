@@ -26,7 +26,6 @@ public class Levels {
     }
     
     private static Level getLevel1(){
-        System.out.println("получить уровень 1");
         ArrayList<Block> blocks = new ArrayList<>();
         Type[][] map = new Type[][]{{Type.WALL, Type.WALL, Type.WALL, Type.WALL, Type.WALL, Type.WALL }, 
                                    { Type.WALL, Type.CLUBS, Type.NONE, Type.NONE, Type.NONE, Type.WALL },
@@ -36,20 +35,18 @@ public class Levels {
                                    { Type.WALL, Type.WALL, Type.WALL, Type.WALL, Type.WALL, Type.WALL }};
         blocks.add(new Block(new Point(2, 1), 1, Type.CLUBS));
         
-        return new Level(1, map, blocks, 20);
+        return new Level(1, map, blocks, 4);
     }
 
     private static Level getLevel2(){
-        System.out.println("получить уровень 2");
         ArrayList<Block> blocks = new ArrayList<>();
         Type[][] map = new Type[][]{{Type.WALL, Type.WALL, Type.WALL, Type.WALL, Type.WALL, Type.WALL }, 
-                                   { Type.WALL, Type.NONE, Type.NONE, Type.NONE, Type.CLUBS, Type.WALL },
+                                   { Type.WALL, Type.CLUBS, Type.NONE, Type.NONE, Type.NONE, Type.WALL },
                                    { Type.WALL, Type.NONE, Type.NONE, Type.NONE, Type.NONE, Type.WALL },
                                    { Type.WALL, Type.NONE, Type.NONE, Type.NONE, Type.NONE, Type.WALL },
                                    { Type.WALL, Type.NONE, Type.NONE, Type.NONE, Type.NONE, Type.WALL },
                                    { Type.WALL, Type.WALL, Type.WALL, Type.WALL, Type.WALL, Type.WALL }};
-        blocks.add(new Block(new Point(1, 1), 1, Type.CLUBS));
-        blocks.add(new Block(new Point(4, 2), 2, Type.CLUBS));
+        blocks.add(new Block(new Point(2, 1), 1, Type.CLUBS));
         
         return new Level(2, map, blocks, 20);
     }

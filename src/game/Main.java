@@ -27,12 +27,15 @@ public class Main extends javax.swing.JFrame implements Runnable {
         this.add(this.levelsController.getLevelView(), BorderLayout.WEST);
     }
     
-    public void start() {
+    private void start() {
         state = State.gaming;
         new Thread(this).start();
-        
-        //StartDialog frame = new StartDialog(this, true);
-        //frame.show();
+    }
+    
+    
+    private void stop() {
+        this.levelsController.saveResult();
+        this.timeLeft.setVisible(false);
     }
     
     /**
@@ -144,42 +147,46 @@ public class Main extends javax.swing.JFrame implements Runnable {
     }// </editor-fold>//GEN-END:initComponents
 
     private void goToTopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goToTopActionPerformed
-
-        this.levelsController.moveBlock(Direction.TOP);
+        if(state == State.gaming){
+            this.levelsController.moveBlock(Direction.TOP);
+        }
     }//GEN-LAST:event_goToTopActionPerformed
 
     private void goToLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goToLeftActionPerformed
-
-        this.levelsController.moveBlock(Direction.LEFT);
+        if(state == State.gaming){
+            this.levelsController.moveBlock(Direction.LEFT);
+        }
     }//GEN-LAST:event_goToLeftActionPerformed
 
     private void goToBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goToBottomActionPerformed
-
-        this.levelsController.moveBlock(Direction.BOTTOM);
+        if(state == State.gaming){
+            this.levelsController.moveBlock(Direction.BOTTOM);
+        }
     }//GEN-LAST:event_goToBottomActionPerformed
 
     private void goToRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goToRightActionPerformed
-
-        this.levelsController.moveBlock(Direction.RIGHT);
+        if(state == State.gaming){
+            this.levelsController.moveBlock(Direction.RIGHT);
+        }
     }//GEN-LAST:event_goToRightActionPerformed
 
     private void changeBlockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeBlockActionPerformed
 
-        if(evt.getModifiers() == MouseEvent.BUTTON1_MASK){
+        if(state == State.gaming && evt.getModifiers() == MouseEvent.BUTTON1_MASK){
             this.levelsController.selectBlock();
         }
     }//GEN-LAST:event_changeBlockActionPerformed
 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
 
-        if(evt.getModifiers() == MouseEvent.BUTTON1_MASK){
+        if(state == State.gaming && evt.getModifiers() == MouseEvent.BUTTON1_MASK){
             this.levelsController.selectBlock(evt.getPoint());
         }
     }//GEN-LAST:event_formMousePressed
 
     private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
 
-        if(evt.getModifiers() == MouseEvent.BUTTON1_MASK){
+        if(state == State.gaming && evt.getModifiers() == MouseEvent.BUTTON1_MASK){
             this.levelsController.moveBlock(evt.getPoint());
         }
     }//GEN-LAST:event_formMouseReleased
@@ -248,6 +255,8 @@ public class Main extends javax.swing.JFrame implements Runnable {
             }
         }
         
+        
+        stop();
         
     }
 }

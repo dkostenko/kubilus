@@ -52,8 +52,17 @@ public class LevelsController {
     public int update(){
         if(this.currentLevel.isFinished()){
             this.currentLevel = Levels.getLevel(this.currentLevel.getId() + 1);
+            
+            if(this.currentLevel == null){
+                game.Main.state = State.downtime;
+                System.out.println("ИГРА ЗАКОНЧЕНА");
+                return 0;
+            }
+            
             this.levelView.setLevel(currentLevel);
         }
+        
+
         
         int leftTime = this.currentLevel.updateTimeLeft();
         if(leftTime == 0){
@@ -94,6 +103,16 @@ public class LevelsController {
                 return Direction.LEFT;
             }
         }
+    }
+    
+    
+    public void saveResult(){
+        if(this.currentLevel != null){
+            System.out.println("Количество пройденных уровней: " + (this.currentLevel.getId() - 1));
+        } else {
+            System.out.println("Вы прошли всю игру!");
+        }
+        
     }
 
     /**
