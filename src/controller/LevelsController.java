@@ -24,21 +24,22 @@ public class LevelsController {
     private Level currentLevel;
     private LevelView levelView;
     
+    
     public LevelsController(){
-        
         this.currentLevel = Levels.getLevel(1);
         this.levelView = new LevelView(this.currentLevel);
     }
     
+    
     public void selectBlock(Point point){
         currentLevel.tryToSelectBlock(point);
-//        levelView.repaint();
     }
+    
     
     public void selectBlock(){
         currentLevel.selectNextBlock();
-//        levelView.repaint();
     }
+    
     
     public void moveBlock(Point upPoint){
         Point downPoint = this.currentLevel.getLastPointDown();
@@ -47,21 +48,30 @@ public class LevelsController {
         }
     }
     
+    
     public int update(){
+        if(this.currentLevel.isFinished()){
+            this.currentLevel = Levels.getLevel(this.currentLevel.getId() + 1);
+            this.levelView.setLevel(currentLevel);
+        }
+        
         int leftTime = this.currentLevel.updateTimeLeft();
-        if(leftTime < 0){
-            game.Main.state = State.finish;
+        if(leftTime == 0){
+            game.Main.state = State.downtime;
         }
         return leftTime;
     }
+    
     
     public void draw(){
         this.levelView.repaint();
     }
     
+    
     public void moveBlock(Direction direction){
         this.currentLevel.startMoving(direction);
     }
+    
     
     private Direction getDirection(Point down, Point up){        
         up.x -= down.x;

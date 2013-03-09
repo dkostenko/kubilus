@@ -24,7 +24,6 @@ public class LevelView extends javax.swing.JPanel {
 
     @Override
     public void paint(Graphics g) {
-        System.out.println("LevelView.paint(Graphics g)");
         super.paint(g);
         
         level.draw(g);
@@ -57,4 +56,11 @@ public class LevelView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * @param level the level to set
+     */
+    public void setLevel(Level level) {
+        this.level = level;
+    }
 }

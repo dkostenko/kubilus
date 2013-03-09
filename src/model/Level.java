@@ -26,7 +26,7 @@ public class Level {
     private int timeLeft;
     private int id;
     
-    public Level(Type[][] map, ArrayList<Block> blocks, int timeLeft){
+    public Level(int id, Type[][] map, ArrayList<Block> blocks, int timeLeft){
         this.map = map;
         this.blocks = blocks;
         this.offset = new Point(0, 0);
@@ -34,6 +34,7 @@ public class Level {
         this.offset.y = Settings.getGAME_HEIGHT() / 2 - map.length * Settings.getBLOCK_SIZE() / 2;
         this.selectedBlock = this.blocks.get(0);
         this.timeLeft = timeLeft;
+        this.id = id;
     }
     
     public void startMoving(Direction direction){
@@ -52,28 +53,35 @@ public class Level {
         
         switch(direction){
             case TOP:
-                while(map[selectedBlock.getPoint().x][selectedBlock.getPoint().y - steps] == Type.NONE){
+                while(!isCollision(map[selectedBlock.getPoint().x][selectedBlock.getPoint().y - steps])){
                     steps++;
                 }
                 break;
             case RIGHT:
-                while(map[selectedBlock.getPoint().x + steps][selectedBlock.getPoint().y] == Type.NONE){
+                while(!isCollision(map[selectedBlock.getPoint().x + steps][selectedBlock.getPoint().y])){
                     steps++;
                 }
                 break;
             case BOTTOM:
-                while(map[selectedBlock.getPoint().x][selectedBlock.getPoint().y + steps] == Type.NONE){
+                while(!isCollision(map[selectedBlock.getPoint().x][selectedBlock.getPoint().y + steps])){
                     steps++;
                 }
                 break;
             case LEFT:
-                while(map[selectedBlock.getPoint().x - steps][selectedBlock.getPoint().y] == Type.NONE){
+                while(!isCollision(map[selectedBlock.getPoint().x - steps][selectedBlock.getPoint().y])){
                     steps++;
                 }
                 break;
         }
         
         return steps - 1;
+    }
+    
+    private boolean isCollision(Type type){
+        if(type == Type.WALL){
+            return true;
+        }
+        return false;
     }
     
     public boolean tryToSelectBlock(Point point){
@@ -105,8 +113,6 @@ public class Level {
     }
     
     public void draw(Graphics g) {
-        System.out.println("Level.draw(Graphics g)");
-        
         boolean drawOval = false;
         
         for (int i = 0; i < map.length; i++) {
@@ -151,6 +157,16 @@ public class Level {
                 block.draw(g, false, this.offset.x, this.offset.y);
             }
         }
+    }
+    
+    public boolean isFinished(){
+        for (Block block : blocks) {
+            if(map[block.getPoint().x][block.getPoint().y] != block.getType()){
+                return false;
+            }
+        }
+        
+        return true;
     }
 
     /**

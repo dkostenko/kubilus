@@ -7,14 +7,6 @@ package game;
 import controller.LevelsController;
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
-import game.Direction;
-import game.State;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.concurrent.TimeUnit;
-import javax.swing.JOptionPane;
-import javax.swing.Timer;
-
 /**
  *
  * @author macbook
@@ -36,8 +28,11 @@ public class Main extends javax.swing.JFrame implements Runnable {
     }
     
     public void start() {
-        state = State.downtime;
+        state = State.gaming;
         new Thread(this).start();
+        
+        //StartDialog frame = new StartDialog(this, true);
+        //frame.show();
     }
     
     /**
@@ -149,41 +144,41 @@ public class Main extends javax.swing.JFrame implements Runnable {
     }// </editor-fold>//GEN-END:initComponents
 
     private void goToTopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goToTopActionPerformed
-        System.out.println("Вверх");
+
         this.levelsController.moveBlock(Direction.TOP);
     }//GEN-LAST:event_goToTopActionPerformed
 
     private void goToLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goToLeftActionPerformed
-        System.out.println("Влево");
+
         this.levelsController.moveBlock(Direction.LEFT);
     }//GEN-LAST:event_goToLeftActionPerformed
 
     private void goToBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goToBottomActionPerformed
-        System.out.println("Вниз");
+
         this.levelsController.moveBlock(Direction.BOTTOM);
     }//GEN-LAST:event_goToBottomActionPerformed
 
     private void goToRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goToRightActionPerformed
-        System.out.println("Вправо");
+
         this.levelsController.moveBlock(Direction.RIGHT);
     }//GEN-LAST:event_goToRightActionPerformed
 
     private void changeBlockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeBlockActionPerformed
-        System.out.println("Поменять блок");
+
         if(evt.getModifiers() == MouseEvent.BUTTON1_MASK){
             this.levelsController.selectBlock();
         }
     }//GEN-LAST:event_changeBlockActionPerformed
 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
-        System.out.println("Кнопка нажата");
+
         if(evt.getModifiers() == MouseEvent.BUTTON1_MASK){
             this.levelsController.selectBlock(evt.getPoint());
         }
     }//GEN-LAST:event_formMousePressed
 
     private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
-        System.out.println("Кнопка отпущена");
+
         if(evt.getModifiers() == MouseEvent.BUTTON1_MASK){
             this.levelsController.moveBlock(evt.getPoint());
         }
@@ -231,13 +226,15 @@ public class Main extends javax.swing.JFrame implements Runnable {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void run() {        
+    public void run() {
+        this.timeLeft.setText("Осталось: " + levelsController.update());
+        
         long lastLoopTime = System.nanoTime();
         long lastFpsTime = 0;
         long now;
         long updateLength;
 
-        while (state != State.finish) {
+        while (state != State.downtime) {
             now = System.nanoTime();
             updateLength = now - lastLoopTime;
             lastLoopTime = now;
