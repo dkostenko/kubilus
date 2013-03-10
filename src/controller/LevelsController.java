@@ -4,17 +4,16 @@
  */
 package controller;
 
-import java.awt.Color;
 import java.awt.Point;
-import java.awt.Rectangle;
-import java.util.ArrayList;
-import model.Block;
 import model.Level;
 import view.LevelView;
 import game.Direction;
 import game.Settings;
 import bd.Levels;
 import game.State;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 
 /**
  *
@@ -52,6 +51,7 @@ public class LevelsController {
     public int update(){
         if(this.currentLevel.isFinished()){
             this.currentLevel = Levels.getLevel(this.currentLevel.getId() + 1);
+            draw();
             
             if(this.currentLevel == null){
                 game.Main.state = State.downtime;
@@ -106,13 +106,33 @@ public class LevelsController {
     }
     
     
-    public void saveResult(){
-        if(this.currentLevel != null){
-            System.out.println("Количество пройденных уровней: " + (this.currentLevel.getId() - 1));
-        } else {
-            System.out.println("Вы прошли всю игру!");
+    public void saveResult(){ 
+        PrintWriter printWriter = null;
+        try{
+            switch(Settings.getAvailableControl()){
+                case MOUSE_ON_FIELD:
+                    printWriter = new PrintWriter(new FileOutputStream("MOUSE_ON_FIELD.txt", true));
+                    break;
+                case PANEL_BUTTONS:
+                    printWriter = new PrintWriter(new FileOutputStream("PANEL_BUTTONS.txt", true));
+                    break;
+                case KEYBOARD:
+                    printWriter = new PrintWriter(new FileOutputStream("KEYBOARD.txt", true));
+                    break;
+            }
+            
+            if(this.currentLevel != null){
+                printWriter.println(this.currentLevel.getId() - 1);
+            } else {
+                printWriter.println(999999);
+            }
+            
+            printWriter.close();
         }
-        
+        catch(FileNotFoundException e)
+        {
+            System.exit(0);
+        }
     }
 
     /**

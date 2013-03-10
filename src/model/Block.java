@@ -8,6 +8,7 @@ import game.Direction;
 import java.awt.Color;
 import java.awt.Point;
 import game.Settings;
+import game.State;
 import java.awt.Graphics;
 import game.Type;
 
@@ -91,6 +92,7 @@ public class Block {
             passedPixels = 0;
             haveToPassPixels = 0;
             this.point = futurePoint;
+            game.Main.state = State.gaming;
         }
     }
     

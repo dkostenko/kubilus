@@ -11,8 +11,9 @@ package game;
 public class Settings {
     private static final int GAME_WIDTH = 780;
     private static final int GAME_HEIGHT = 600;
-    private static final int BLOCK_SPEED = 1;
+    private static final int BLOCK_SPEED = 2;
     private static final int BLOCK_SIZE = 40;
+    private static Controller AVAILABLE_CONTROL;
 
     /**
      * @return the GAME_WIDTH
@@ -40,5 +41,19 @@ public class Settings {
      */
     public static int getBLOCK_SIZE() {
         return BLOCK_SIZE;
+    }
+
+    /**
+     * @return the availableControl
+     */
+    public static Controller getAvailableControl() {
+        return AVAILABLE_CONTROL;
+    }
+
+    /**
+     * @param aAvailableControl the availableControl to set
+     */
+    public static void setAvailableControl(Controller aAvailableControl) {
+        AVAILABLE_CONTROL = aAvailableControl;
     }
 }

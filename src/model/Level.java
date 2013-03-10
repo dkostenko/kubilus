@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
 import game.Settings;
+import game.State;
 import game.Type;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -45,7 +46,10 @@ public class Level {
         int steps = getPossibleStepsAmount(direction);
         System.out.println("Количество возможных шагов: " + steps);
         
-        this.selectedBlock.move(direction, steps);
+        if(steps > 0){
+           game.Main.state = State.moving;
+           this.selectedBlock.move(direction, steps); 
+        }
     }
     
     private int getPossibleStepsAmount(Direction direction){
@@ -120,14 +124,14 @@ public class Level {
                 switch(map[i][j]){
                     case WALL:
                         g.setColor(Color.GRAY);
-                        g.fillRect(j * Settings.getBLOCK_SIZE() + offset.x, 
-                                   i * Settings.getBLOCK_SIZE() + offset.y,
+                        g.fillRect(i * Settings.getBLOCK_SIZE() + offset.x, 
+                                   j * Settings.getBLOCK_SIZE() + offset.y,
                                    Settings.getBLOCK_SIZE(), 
                                    Settings.getBLOCK_SIZE());
                         
                         g.setColor(Color.BLACK);
-                        g.drawRect(j * Settings.getBLOCK_SIZE() + offset.x, 
-                                   i * Settings.getBLOCK_SIZE() + offset.y,
+                        g.drawRect(i * Settings.getBLOCK_SIZE() + offset.x, 
+                                   j * Settings.getBLOCK_SIZE() + offset.y,
                                    Settings.getBLOCK_SIZE(), 
                                    Settings.getBLOCK_SIZE());
                         
@@ -140,8 +144,8 @@ public class Level {
                 }
                 
                 if(drawOval){
-                    g.fillOval(j * Settings.getBLOCK_SIZE() + 1 + offset.x, 
-                               i * Settings.getBLOCK_SIZE() + 1 + offset.y, 
+                    g.fillOval(i * Settings.getBLOCK_SIZE() + 1 + offset.x, 
+                               j * Settings.getBLOCK_SIZE() + 1 + offset.y, 
                                Settings.getBLOCK_SIZE() - 1, 
                                Settings.getBLOCK_SIZE() - 1);
                     drawOval = false;

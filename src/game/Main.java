@@ -6,6 +6,7 @@ package game;
 
 import controller.LevelsController;
 import java.awt.BorderLayout;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 /**
  *
@@ -29,6 +30,7 @@ public class Main extends javax.swing.JFrame implements Runnable {
     
     private void start() {
         state = State.gaming;
+        turnOnController(Controller.MOUSE_ON_FIELD);
         new Thread(this).start();
     }
     
@@ -36,6 +38,25 @@ public class Main extends javax.swing.JFrame implements Runnable {
     private void stop() {
         this.levelsController.saveResult();
         this.timeLeft.setVisible(false);
+    }
+    
+    
+    private void turnOnController(Controller controller){
+        Settings.setAvailableControl(controller);
+        
+        if(controller == Controller.PANEL_BUTTONS){
+            goToTop.setEnabled(true);
+            goToRight.setEnabled(true);
+            goToBottom.setEnabled(true);
+            goToLeft.setEnabled(true);
+            changeBlock.setEnabled(true);
+        } else {
+            goToTop.setEnabled(false);
+            goToRight.setEnabled(false);
+            goToBottom.setEnabled(false);
+            goToLeft.setEnabled(false);
+            changeBlock.setEnabled(false);
+        }
     }
     
     /**
@@ -63,6 +84,11 @@ public class Main extends javax.swing.JFrame implements Runnable {
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 formMouseReleased(evt);
+            }
+        });
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
             }
         });
 
@@ -147,49 +173,72 @@ public class Main extends javax.swing.JFrame implements Runnable {
     }// </editor-fold>//GEN-END:initComponents
 
     private void goToTopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goToTopActionPerformed
-        if(state == State.gaming){
+        if(Settings.getAvailableControl() == Controller.PANEL_BUTTONS && state == State.gaming){
             this.levelsController.moveBlock(Direction.TOP);
         }
     }//GEN-LAST:event_goToTopActionPerformed
 
     private void goToLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goToLeftActionPerformed
-        if(state == State.gaming){
+        if(Settings.getAvailableControl() == Controller.PANEL_BUTTONS && state == State.gaming){
             this.levelsController.moveBlock(Direction.LEFT);
         }
     }//GEN-LAST:event_goToLeftActionPerformed
 
     private void goToBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goToBottomActionPerformed
-        if(state == State.gaming){
+        if(Settings.getAvailableControl() == Controller.PANEL_BUTTONS && state == State.gaming){
             this.levelsController.moveBlock(Direction.BOTTOM);
         }
     }//GEN-LAST:event_goToBottomActionPerformed
 
     private void goToRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goToRightActionPerformed
-        if(state == State.gaming){
+        if(Settings.getAvailableControl() == Controller.PANEL_BUTTONS && state == State.gaming){
             this.levelsController.moveBlock(Direction.RIGHT);
         }
     }//GEN-LAST:event_goToRightActionPerformed
 
     private void changeBlockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeBlockActionPerformed
 
-        if(state == State.gaming && evt.getModifiers() == MouseEvent.BUTTON1_MASK){
+        if(Settings.getAvailableControl() == Controller.PANEL_BUTTONS && state == State.gaming && evt.getModifiers() == MouseEvent.BUTTON1_MASK){
             this.levelsController.selectBlock();
         }
     }//GEN-LAST:event_changeBlockActionPerformed
 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
 
-        if(state == State.gaming && evt.getModifiers() == MouseEvent.BUTTON1_MASK){
+        if(Settings.getAvailableControl() == Controller.MOUSE_ON_FIELD && state == State.gaming && evt.getModifiers() == MouseEvent.BUTTON1_MASK){
             this.levelsController.selectBlock(evt.getPoint());
         }
     }//GEN-LAST:event_formMousePressed
 
     private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
 
-        if(state == State.gaming && evt.getModifiers() == MouseEvent.BUTTON1_MASK){
+        if(Settings.getAvailableControl() == Controller.MOUSE_ON_FIELD && state == State.gaming && evt.getModifiers() == MouseEvent.BUTTON1_MASK){
             this.levelsController.moveBlock(evt.getPoint());
         }
     }//GEN-LAST:event_formMouseReleased
+
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+
+        if(Settings.getAvailableControl() == Controller.KEYBOARD){
+            switch(evt.getKeyCode()){
+                case KeyEvent.VK_UP:
+                    this.levelsController.moveBlock(Direction.TOP);
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    this.levelsController.moveBlock(Direction.RIGHT);
+                    break;
+                case KeyEvent.VK_DOWN:
+                    this.levelsController.moveBlock(Direction.BOTTOM);
+                    break;
+                case KeyEvent.VK_LEFT:
+                    this.levelsController.moveBlock(Direction.LEFT);
+                    break;
+                case KeyEvent.VK_SPACE:
+                    this.levelsController.selectBlock();
+                    break;
+            }
+        }
+    }//GEN-LAST:event_formKeyPressed
 
     /**
      * @param args the command line arguments
@@ -246,8 +295,10 @@ public class Main extends javax.swing.JFrame implements Runnable {
             updateLength = now - lastLoopTime;
             lastLoopTime = now;
             lastFpsTime += updateLength;
-
-            this.levelsController.draw();
+            
+            if(this.state == State.moving){
+                this.levelsController.draw();
+            }
 
             if (lastFpsTime >= 1000000000) {
                 this.timeLeft.setText("Осталось: " + levelsController.update());

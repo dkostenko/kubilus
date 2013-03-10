@@ -8,8 +8,8 @@ package game;
  *
  * @author macbook
  */
-public enum State {
-    downtime,
-    gaming,
-    moving
+public enum Controller {
+    MOUSE_ON_FIELD,
+    PANEL_BUTTONS,
+    KEYBOARD
 }
