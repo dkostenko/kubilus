@@ -44,7 +44,6 @@ public class Level {
         }
         
         int steps = getPossibleStepsAmount(direction);
-        System.out.println("Количество возможных шагов: " + steps);
         
         if(steps > 0){
            game.Main.state = State.moving;

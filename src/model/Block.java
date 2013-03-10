@@ -87,7 +87,7 @@ public class Block {
     }
     
     private void tryToFinishMoving(){
-        if(passedPixels == haveToPassPixels){
+        if(direction != Direction.NONE && passedPixels == haveToPassPixels){
             direction = Direction.NONE;
             passedPixels = 0;
             haveToPassPixels = 0;

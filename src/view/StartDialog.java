@@ -35,6 +35,7 @@ public class StartDialog extends javax.swing.JDialog {
         setMouse = new javax.swing.JButton();
         setBPanelButtons = new javax.swing.JButton();
         presentation = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         jLabel1.setText("jLabel1");
 
@@ -66,34 +67,41 @@ public class StartDialog extends javax.swing.JDialog {
         presentation.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         presentation.setText("Выберите способ взаимодействия");
 
+        jLabel2.setText("НОВАЯ ИГРА");
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
-                .add(19, 19, 19)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .add(setKeyBoard)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(18, 18, 18)
                 .add(setMouse)
                 .add(18, 18, 18)
-                .add(setBPanelButtons)
-                .addContainerGap(26, Short.MAX_VALUE))
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(presentation, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 244, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(82, 82, 82))
+                .add(setBPanelButtons, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE))
+            .add(layout.createSequentialGroup()
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .add(77, 77, 77)
+                        .add(presentation, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 244, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(layout.createSequentialGroup()
+                        .add(153, 153, 153)
+                        .add(jLabel2)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .add(70, 70, 70)
+                .add(36, 36, 36)
+                .add(jLabel2)
+                .add(18, 18, 18)
                 .add(presentation)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 92, Short.MAX_VALUE)
+                .add(46, 46, 46)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(setKeyBoard)
                     .add(setMouse)
                     .add(setBPanelButtons))
-                .add(93, 93, 93))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         pack();
@@ -157,6 +165,7 @@ public class StartDialog extends javax.swing.JDialog {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel presentation;
     private javax.swing.JButton setBPanelButtons;
     private javax.swing.JButton setKeyBoard;

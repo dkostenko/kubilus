@@ -9,6 +9,7 @@ package game;
  * @author macbook
  */
 public enum Controller {
+    NONE,
     MOUSE_ON_FIELD,
     PANEL_BUTTONS,
     KEYBOARD

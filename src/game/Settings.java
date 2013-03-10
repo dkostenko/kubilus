@@ -13,7 +13,7 @@ public class Settings {
     private static final int GAME_HEIGHT = 600;
     private static final int BLOCK_SPEED = 2;
     private static final int BLOCK_SIZE = 40;
-    private static Controller AVAILABLE_CONTROL = Controller.KEYBOARD;
+    private static Controller AVAILABLE_CONTROL = Controller.NONE;
 
     /**
      * @return the GAME_WIDTH

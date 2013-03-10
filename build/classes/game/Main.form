@@ -123,7 +123,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="timeLeft">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jLabel1"/>
+        <Property name="text" type="java.lang.String" value="&#x41e;&#x441;&#x442;&#x430;&#x43b;&#x43e;&#x441;&#x44c;:"/>
       </Properties>
     </Component>
   </SubComponents>

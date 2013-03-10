@@ -32,6 +32,7 @@ public class Main extends javax.swing.JFrame implements Runnable {
     
     private void start() {
         state = State.gaming;
+        Settings.setAvailableControl(Controller.NONE);
         
         StartDialog startDialog = new StartDialog(this, rootPaneCheckingEnabled);
         startDialog.setVisible(true);
@@ -45,6 +46,7 @@ public class Main extends javax.swing.JFrame implements Runnable {
         this.levelsController.saveResult();
         this.timeLeft.setVisible(false);
         
+        game.dispose();
         game = new Main();
         game.setVisible(true);
         game.start();
@@ -53,6 +55,10 @@ public class Main extends javax.swing.JFrame implements Runnable {
     
     private void turnOnController(){
         Controller controller = Settings.getAvailableControl();
+        
+        if(controller == Controller.NONE){
+            System.exit(0);
+        }
         
         if(controller == Controller.PANEL_BUTTONS){
             goToTop.setEnabled(true);
@@ -140,7 +146,7 @@ public class Main extends javax.swing.JFrame implements Runnable {
             }
         });
 
-        timeLeft.setText("jLabel1");
+        timeLeft.setText("Осталось:");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -309,6 +315,12 @@ public class Main extends javax.swing.JFrame implements Runnable {
             if(this.state == State.moving){
                 this.levelsController.draw();
             }
+            
+            if(this.state == State.levelFinished){
+                this.state = State.gaming;
+                this.levelsController.draw();
+            }
+            
 
             if (lastFpsTime >= 1000000000) {
                 this.timeLeft.setText("Осталось: " + levelsController.update());

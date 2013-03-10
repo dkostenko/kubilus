@@ -11,5 +11,6 @@ package game;
 public enum State {
     downtime,
     gaming,
+    levelFinished,
     moving
 }

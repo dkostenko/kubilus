@@ -59,6 +59,7 @@ public class LevelsController {
                 return 0;
             }
             
+            game.Main.state = State.levelFinished;
             this.levelView.setLevel(currentLevel);
         }
         
