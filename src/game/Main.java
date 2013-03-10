@@ -8,6 +8,7 @@ import controller.LevelsController;
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import view.StartDialog;
 /**
  *
  * @author macbook
@@ -16,6 +17,7 @@ public class Main extends javax.swing.JFrame implements Runnable {
 
     private LevelsController levelsController;
     public static State state;
+    private static Main game;
     
     /**
      * Creates new form Main
@@ -30,7 +32,11 @@ public class Main extends javax.swing.JFrame implements Runnable {
     
     private void start() {
         state = State.gaming;
-        turnOnController(Controller.MOUSE_ON_FIELD);
+        
+        StartDialog startDialog = new StartDialog(this, rootPaneCheckingEnabled);
+        startDialog.setVisible(true);
+        
+        turnOnController();
         new Thread(this).start();
     }
     
@@ -38,11 +44,15 @@ public class Main extends javax.swing.JFrame implements Runnable {
     private void stop() {
         this.levelsController.saveResult();
         this.timeLeft.setVisible(false);
+        
+        game = new Main();
+        game.setVisible(true);
+        game.start();
     }
     
     
-    private void turnOnController(Controller controller){
-        Settings.setAvailableControl(controller);
+    private void turnOnController(){
+        Controller controller = Settings.getAvailableControl();
         
         if(controller == Controller.PANEL_BUTTONS){
             goToTop.setEnabled(true);
@@ -268,7 +278,7 @@ public class Main extends javax.swing.JFrame implements Runnable {
         //</editor-fold>
 
         /* Create and display the form */
-        Main game = new Main();
+        game = new Main();
         game.setVisible(true);
         game.start();
     }
