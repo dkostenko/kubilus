@@ -4,16 +4,16 @@
  */
 package controller;
 
-import java.awt.Point;
-import model.Level;
-import view.LevelView;
+import bd.Levels;
 import game.Direction;
 import game.Settings;
-import bd.Levels;
 import game.State;
+import java.awt.Point;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import model.Level;
+import view.LevelView;
 
 /**
  *
@@ -31,12 +31,15 @@ public class LevelsController {
     
     
     public void selectBlock(Point point){
-        currentLevel.tryToSelectBlock(point);
+        if(currentLevel.tryToSelectBlock(point)){
+            this.levelView = new LevelView(this.currentLevel);
+        }
     }
     
     
     public void selectBlock(){
         currentLevel.selectNextBlock();
+        this.levelView.repaint();
     }
     
     
@@ -55,7 +58,6 @@ public class LevelsController {
             
             if(this.currentLevel == null){
                 game.Main.state = State.downtime;
-                System.out.println("ИГРА ЗАКОНЧЕНА");
                 return 0;
             }
             

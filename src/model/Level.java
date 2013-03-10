@@ -52,26 +52,30 @@ public class Level {
     }
     
     private int getPossibleStepsAmount(Direction direction){
-        int steps = 0;
+        int steps = 1;
         
         switch(direction){
             case TOP:
-                while(!isCollision(map[selectedBlock.getPoint().x][selectedBlock.getPoint().y - steps])){
+                while(!isCollision(map[selectedBlock.getPoint().x][selectedBlock.getPoint().y - steps],
+                        new Point(selectedBlock.getPoint().x, selectedBlock.getPoint().y - steps))){
                     steps++;
                 }
                 break;
             case RIGHT:
-                while(!isCollision(map[selectedBlock.getPoint().x + steps][selectedBlock.getPoint().y])){
+                while(!isCollision(map[selectedBlock.getPoint().x + steps][selectedBlock.getPoint().y],
+                        new Point(selectedBlock.getPoint().x + steps, selectedBlock.getPoint().y))){
                     steps++;
                 }
                 break;
             case BOTTOM:
-                while(!isCollision(map[selectedBlock.getPoint().x][selectedBlock.getPoint().y + steps])){
+                while(!isCollision(map[selectedBlock.getPoint().x][selectedBlock.getPoint().y + steps],
+                        new Point(selectedBlock.getPoint().x, selectedBlock.getPoint().y + steps))){
                     steps++;
                 }
                 break;
             case LEFT:
-                while(!isCollision(map[selectedBlock.getPoint().x - steps][selectedBlock.getPoint().y])){
+                while(!isCollision(map[selectedBlock.getPoint().x - steps][selectedBlock.getPoint().y],
+                        new Point(selectedBlock.getPoint().x - steps, selectedBlock.getPoint().y))){
                     steps++;
                 }
                 break;
@@ -80,10 +84,17 @@ public class Level {
         return steps - 1;
     }
     
-    private boolean isCollision(Type type){
+    private boolean isCollision(Type type, Point nextPoint){
         if(type == Type.WALL){
             return true;
         }
+        
+        for(Block block : blocks) {
+            if(block.getPoint().x == nextPoint.x && block.getPoint().y == nextPoint.y){
+                return true;
+            }
+        }
+        
         return false;
     }
     
