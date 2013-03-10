@@ -147,10 +147,22 @@ public class Level {
                         
                         drawOval = false;
                         break;
-                    case CLUBS:
+                    case SPIDES:
                         g.setColor(Color.BLUE);
                         drawOval = true;
                         break;
+                    case HEARTS:
+                        g.setColor(Color.PINK);
+                        drawOval = true;
+                        break;
+                    case CLUBS:
+                        g.setColor(Color.GREEN);
+                        drawOval = true;
+                        break;
+                    case DIAMONDS:
+                        g.setColor(Color.MAGENTA);
+                        drawOval = true;
+                        break;  
                 }
                 
                 if(drawOval){

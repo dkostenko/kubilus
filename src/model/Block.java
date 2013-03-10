@@ -29,11 +29,25 @@ public class Block {
     public Block(Point point, int id, Type type){
         this.point = point;
         this.id = id;
-        this.color = Color.BLUE;
         this.type = type;
         this.direction = Direction.NONE;
         this.haveToPassPixels = 0;
         this.passedPixels = 0;
+        
+        switch(type){
+            case SPIDES:
+                this.color = Color.BLUE;
+                break;
+            case HEARTS:
+                this.color = Color.PINK;
+                break;
+            case CLUBS:
+                this.color = Color.GREEN;
+                break;
+            case DIAMONDS:
+                this.color = Color.MAGENTA;
+                break;    
+        }
     }
 
     void draw(Graphics g, boolean selected, int xOffset, int yOffset) {

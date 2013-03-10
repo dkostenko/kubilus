@@ -32,7 +32,7 @@ public class LevelsController {
     
     public void selectBlock(Point point){
         if(currentLevel.tryToSelectBlock(point)){
-            this.levelView = new LevelView(this.currentLevel);
+            this.levelView.repaint();
         }
     }
     

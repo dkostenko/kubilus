@@ -47,10 +47,10 @@ public class Levels {
                                    { Type.WALL, Type.CLUBS, Type.NONE, Type.NONE, Type.NONE, Type.WALL },
                                    { Type.WALL, Type.NONE, Type.NONE, Type.NONE, Type.NONE, Type.WALL },
                                    { Type.WALL, Type.NONE, Type.NONE, Type.NONE, Type.NONE, Type.WALL },
-                                   { Type.WALL, Type.CLUBS, Type.NONE, Type.NONE, Type.NONE, Type.WALL },
+                                   { Type.WALL, Type.DIAMONDS, Type.NONE, Type.NONE, Type.NONE, Type.WALL },
                                    { Type.WALL, Type.WALL, Type.WALL, Type.WALL, Type.WALL, Type.WALL }};
         blocks.add(new Block(new Point(2, 1), 1, Type.CLUBS));
-        blocks.add(new Block(new Point(2, 4), 2, Type.CLUBS));
+        blocks.add(new Block(new Point(2, 4), 2, Type.DIAMONDS));
         
         return new Level(2, map, blocks, 10);
     }
